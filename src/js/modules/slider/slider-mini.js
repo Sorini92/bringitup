@@ -25,9 +25,12 @@ export default class MiniSlider extends Slider {
     }
 
     nextSlide() {
-        /* if (this.slides.tagName == "BUTTON") {
-
-        } */
+        this.slides.forEach((slide, i) => {
+            if(slide.tagName == "BUTTON" && i < 7) {
+                this.container.insertBefore(this.slides[7], this.slides[i]);
+                console.log(i);
+            } 
+        });
 
         this.container.appendChild(this.slides[0]);
         this.decorizeSlides();        
@@ -37,6 +40,12 @@ export default class MiniSlider extends Slider {
         this.next.addEventListener('click', () => this.nextSlide());
 
         this.prev.addEventListener('click', () => {
+            this.slides.forEach((slide, i) => {
+                if(slide.tagName == "BUTTON" && i > this.slides.length - 2) {
+                    this.container.appendChild(this.slides[this.slides.length - 3]);
+                } 
+            });
+
             let active = this.slides[this.slides.length - 1];
             this.container.insertBefore(active, this.slides[0]);
             this.decorizeSlides();
@@ -55,7 +64,30 @@ export default class MiniSlider extends Slider {
         this.decorizeSlides();
 
         if (this.autoplay) {
-            setInterval(() => this.nextSlide(), 5000);
+            let paused = setInterval(() => this.nextSlide(), 5000);
+
+            this.slides.forEach(slide => {
+                slide.addEventListener('mouseenter', () => {
+                    clearInterval(paused);
+                });
+                slide.addEventListener('mouseleave', () => {
+                    paused = setInterval(() => this.nextSlide(), 5000);
+                });
+            });
+
+            this.prev.addEventListener('mouseenter', () => {
+                clearInterval(paused);
+            });
+            this.prev.addEventListener('mouseleave', () => {
+                paused = setInterval(() => this.nextSlide(), 5000);
+            });
+
+            this.next.addEventListener('mouseenter', () => {
+                clearInterval(paused);
+            });
+            this.next.addEventListener('mouseleave', () => {
+                paused = setInterval(() => this.nextSlide(), 5000);
+            });
         }
     }
 }

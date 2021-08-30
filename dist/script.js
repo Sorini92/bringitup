@@ -3125,40 +3125,79 @@ function (_Slider) {
   }, {
     key: "nextSlide",
     value: function nextSlide() {
-      /* if (this.slides.tagName == "BUTTON") {
-       } */
+      var _this2 = this;
+
+      this.slides.forEach(function (slide, i) {
+        if (slide.tagName == "BUTTON" && i < 7) {
+          _this2.container.insertBefore(_this2.slides[7], _this2.slides[i]);
+
+          console.log(i);
+        }
+      });
       this.container.appendChild(this.slides[0]);
       this.decorizeSlides();
     }
   }, {
     key: "bindTriggers",
     value: function bindTriggers() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.next.addEventListener('click', function () {
-        return _this2.nextSlide();
+        return _this3.nextSlide();
       });
       this.prev.addEventListener('click', function () {
-        var active = _this2.slides[_this2.slides.length - 1];
+        _this3.slides.forEach(function (slide, i) {
+          if (slide.tagName == "BUTTON" && i > _this3.slides.length - 2) {
+            _this3.container.appendChild(_this3.slides[_this3.slides.length - 3]);
+          }
+        });
 
-        _this2.container.insertBefore(active, _this2.slides[0]);
+        var active = _this3.slides[_this3.slides.length - 1];
 
-        _this2.decorizeSlides();
+        _this3.container.insertBefore(active, _this3.slides[0]);
+
+        _this3.decorizeSlides();
       });
     }
   }, {
     key: "init",
     value: function init() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.container.style.cssText = "\n            display: flex;\n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
       this.bindTriggers();
       this.decorizeSlides();
 
       if (this.autoplay) {
-        setInterval(function () {
-          return _this3.nextSlide();
+        var paused = setInterval(function () {
+          return _this4.nextSlide();
         }, 5000);
+        this.slides.forEach(function (slide) {
+          slide.addEventListener('mouseenter', function () {
+            clearInterval(paused);
+          });
+          slide.addEventListener('mouseleave', function () {
+            paused = setInterval(function () {
+              return _this4.nextSlide();
+            }, 5000);
+          });
+        });
+        this.prev.addEventListener('mouseenter', function () {
+          clearInterval(paused);
+        });
+        this.prev.addEventListener('mouseleave', function () {
+          paused = setInterval(function () {
+            return _this4.nextSlide();
+          }, 5000);
+        });
+        this.next.addEventListener('mouseenter', function () {
+          clearInterval(paused);
+        });
+        this.next.addEventListener('mouseleave', function () {
+          paused = setInterval(function () {
+            return _this4.nextSlide();
+          }, 5000);
+        });
       }
     }
   }]);
