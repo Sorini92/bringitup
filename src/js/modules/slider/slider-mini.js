@@ -52,6 +52,32 @@ export default class MiniSlider extends Slider {
         });
     }
 
+    interval(slides, prev, next) {
+        let paused = setInterval(() => this.nextSlide(), 5000);
+        slides.forEach(slide => {
+            slide.addEventListener('mouseenter', () => {
+                clearInterval(paused);
+            });
+            slide.addEventListener('mouseleave', () => {
+                paused = setInterval(() => this.nextSlide(), 5000);
+            });
+        });
+
+        prev.addEventListener('mouseenter', () => {
+            clearInterval(paused);
+        });
+        prev.addEventListener('mouseleave', () => {
+            paused = setInterval(() => this.nextSlide(), 5000);
+        });
+
+        next.addEventListener('mouseenter', () => {
+            clearInterval(paused);
+        });
+        next.addEventListener('mouseleave', () => {
+            paused = setInterval(() => this.nextSlide(), 5000);
+        });
+    }
+
     init() {
         this.container.style.cssText = `
             display: flex;
@@ -64,30 +90,7 @@ export default class MiniSlider extends Slider {
         this.decorizeSlides();
 
         if (this.autoplay) {
-            let paused = setInterval(() => this.nextSlide(), 5000);
-
-            this.slides.forEach(slide => {
-                slide.addEventListener('mouseenter', () => {
-                    clearInterval(paused);
-                });
-                slide.addEventListener('mouseleave', () => {
-                    paused = setInterval(() => this.nextSlide(), 5000);
-                });
-            });
-
-            this.prev.addEventListener('mouseenter', () => {
-                clearInterval(paused);
-            });
-            this.prev.addEventListener('mouseleave', () => {
-                paused = setInterval(() => this.nextSlide(), 5000);
-            });
-
-            this.next.addEventListener('mouseenter', () => {
-                clearInterval(paused);
-            });
-            this.next.addEventListener('mouseleave', () => {
-                paused = setInterval(() => this.nextSlide(), 5000);
-            });
+            this.interval(this.slides,this.prev, this.next);
         }
     }
 }
