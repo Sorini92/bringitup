@@ -28,7 +28,6 @@ export default class MiniSlider extends Slider {
         this.slides.forEach((slide, i) => {
             if(slide.tagName == "BUTTON" && i < 7) {
                 this.container.insertBefore(this.slides[7], this.slides[i]);
-                console.log(i);
             } 
         });
 
@@ -37,18 +36,22 @@ export default class MiniSlider extends Slider {
     }
 
     bindTriggers() {
-        this.next.addEventListener('click', () => this.nextSlide());
-
-        this.prev.addEventListener('click', () => {
-            this.slides.forEach((slide, i) => {
-                if(slide.tagName == "BUTTON" && i > this.slides.length - 2) {
-                    this.container.appendChild(this.slides[this.slides.length - 3]);
-                } 
+        this.next.forEach(item => {
+            item.addEventListener('click', () => this.nextSlide());
+        });
+        
+        this.prev.forEach(item => {
+            item.addEventListener('click', () => {
+                this.slides.forEach((slide, i) => {
+                    if(slide.tagName == "BUTTON" && i > this.slides.length - 2) {
+                        this.container.appendChild(this.slides[this.slides.length - 3]);
+                    } 
+                });
+    
+                let active = this.slides[this.slides.length - 1];
+                this.container.insertBefore(active, this.slides[0]);
+                this.decorizeSlides();
             });
-
-            let active = this.slides[this.slides.length - 1];
-            this.container.insertBefore(active, this.slides[0]);
-            this.decorizeSlides();
         });
     }
 
@@ -79,18 +82,20 @@ export default class MiniSlider extends Slider {
     }
 
     init() {
-        this.container.style.cssText = `
-            display: flex;
-            flex-wrap: wrap;
-            overflow: hidden;
-            align-items: flex-start;
-        `;
+        try {
+            this.container.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                overflow: hidden;
+                align-items: flex-start;
+            `;
 
-        this.bindTriggers();
-        this.decorizeSlides();
+            this.bindTriggers();
+            this.decorizeSlides();
 
-        if (this.autoplay) {
-            this.interval(this.slides,this.prev, this.next);
-        }
+            if (this.autoplay) {
+                this.interval(this.slides,this.prev, this.next);
+            }
+        } catch(e) {}
     }
 }
