@@ -3,11 +3,30 @@ import MiniSlider from './modules/slider/slider-mini';
 import VideoPlayer from './modules/playVideo';
 import Difference from './modules/difference';
 import Form from './modules/forms';
+import ShowInfo from './modules/showInfo';
+import Download from './modules/download';
 
 window.addEventListener('DOMContentLoaded', () => {
+    try {
+        document.querySelector('.showup__intro .btn').addEventListener('click', () => {
+            const element = document.createElement('a'),
+                  address = 'modules.html',
+                  path = `${window.location.href}${address}`;
+    
+            element.setAttribute('href', path.replace(/#/g, ''));
+    
+            element.style.display = 'none';
+            document.body.appendChild(element);
+    
+            element.click();
+    
+            document.body.removeChild(element);
+        });
+    } catch(e){}
+
     const slider = new MainSlider({btns: '.next', container: '.page'});
     slider.render(); 
-
+    
     const modulePageSlider = new MainSlider({
         container: '.moduleapp', 
         btns: '.next',
@@ -48,4 +67,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     new Difference('.officerold', '.officernew', '.officer__card-item').init();
     new Form('.form').init();
+
+    new ShowInfo('.plus__content').init();
+
+    new Download('.download').init();
 });
