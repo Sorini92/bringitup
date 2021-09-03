@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const element = document.createElement('a'),
                   address = 'modules.html',
                   path = `${window.location.href}${address}`;
-    
+            console.log(path);
             element.setAttribute('href', path.replace(/#/g, ''));
     
             element.style.display = 'none';

@@ -5251,6 +5251,7 @@ window.addEventListener('DOMContentLoaded', function () {
       var element = document.createElement('a'),
           address = 'modules.html',
           path = "".concat(window.location.href).concat(address);
+      console.log(path);
       element.setAttribute('href', path.replace(/#/g, ''));
       element.style.display = 'none';
       document.body.appendChild(element);
