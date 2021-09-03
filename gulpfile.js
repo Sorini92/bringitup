@@ -44,7 +44,7 @@ gulp.task("build-js", () => {
                       }
                 }))
                 .pipe(gulp.dest(dist))
-                .pipe(gulp.dest(docs + "/js"))
+                .pipe(gulp.dest(docs))
                 .on("end", browsersync.reload);
 });
 
@@ -100,7 +100,7 @@ gulp.task("build-prod-js", () => {
                       }
                 }))
                 .pipe(gulp.dest(dist))
-                .pipe(gulp.dest(docs + "/js"));
+                .pipe(gulp.dest(docs));
 });
 
 gulp.task("default", gulp.parallel("watch", "build"));
