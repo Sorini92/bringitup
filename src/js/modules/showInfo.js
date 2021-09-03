@@ -1,5 +1,5 @@
 export default class ShowInfo {
-    constructor(triggers, content) {
+    constructor(triggers) {
         this.btns = document.querySelectorAll(triggers);
     }
 

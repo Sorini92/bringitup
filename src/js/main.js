@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const element = document.createElement('a'),
                   address = 'modules.html',
                   path = `${window.location.href}${address}`;
-            console.log(path);
+
             element.setAttribute('href', path.replace(/#/g, ''));
     
             element.style.display = 'none';
@@ -66,9 +66,10 @@ window.addEventListener('DOMContentLoaded', () => {
     new VideoPlayer('.module__video-item .play', '.overlay').init();
 
     new Difference('.officerold', '.officernew', '.officer__card-item').init();
+    
     new Form('.form').init();
 
-    new ShowInfo('.plus__content').init();
+    new ShowInfo('.module__info-show .plus .plus__content').init();
 
     new Download('.download').init();
 });
